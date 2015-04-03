@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="MainStyle" parent="android:Theme.Holo.Light">
+
+    <!--<item name="android:background">@drawable/gradient_background</item>-->
+
+</style>
+<style name="button_style" >
+        <item name="android:textColor" >#FFFFFF</item>
+        <item name="android:gravity" >center</item>
+        <item name="android:layout_margin" >3dp</item>
+        <item name="android:textSize" >30dp</item>
+        <item name="android:textStyle" >bold</item>
+        <item name="android:shadowColor" >#000000</item>
+        <item name="android:shadowDx" >1</item>
+        <item name="android:shadowDy" >1</item>
+        <item name="android:shadowRadius" >2</item>
+</style>
+    <style name="grey_button" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity" >center</item>
+        <item name="android:layout_margin" >10dp</item>
+        <item name="android:textColor">@color/textColorButton</item>
+        <item name="android:textSize">@dimen/textSize</item>
+        <item name="android:shadowColor" >#000000</item>
+        <item name="android:shadowDx" >1</item>
+        <item name="android:shadowDy" >1</item>
+        <item name="android:shadowRadius" >2</item>
+    </style>
+
+    <style name="TextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/textSize</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--<style name="MainText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/textSize</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+    </style>-->
+</resources>

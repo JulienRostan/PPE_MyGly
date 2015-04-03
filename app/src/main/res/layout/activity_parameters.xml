@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background"
+    android:paddingTop="25dp"
+    android:paddingBottom="15dp"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/firstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:textAppearance="@style/TextViewStyle"
+        android:text="@string/firstName"/>
+
+    <EditText
+        android:id="@+id/editFirstName"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/text_edit"
+        android:textColor="@color/textColorButton"
+        android:textCursorDrawable="@null"
+        android:singleLine="true"
+        android:padding="10dp"
+        android:inputType="text"/>
+            <!--android:hint="Prénom"-->
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:textAppearance="@style/TextViewStyle"
+        android:text="@string/email"/>
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/text_edit"
+        android:textColor="@color/textColorButton"
+        android:textCursorDrawable="@null"
+        android:singleLine="true"
+        android:padding="10dp"
+        android:inputType="text"/>
+
+    <TextView
+        android:id="@+id/hypo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:textAppearance="@style/TextViewStyle"
+        android:text="@string/hypo"/>
+
+    <EditText
+        android:id="@+id/editHypo"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/text_edit"
+        android:textColor="@color/textColorButton"
+        android:textCursorDrawable="@null"
+        android:singleLine="true"
+        android:padding="10dp"
+        android:inputType="text"/>
+    <TextView
+        android:id="@+id/hyper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:textAppearance="@style/TextViewStyle"
+        android:text="@string/hyper"/>
+
+    <EditText
+        android:id="@+id/editHyper"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/text_edit"
+        android:textColor="@color/textColorButton"
+        android:textCursorDrawable="@null"
+        android:singleLine="true"
+        android:padding="10dp"
+        android:inputType="text"/>
+
+    <Button
+        android:background="@drawable/grey_button"
+        style="@style/grey_button"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:text="@string/param_save"
+        android:id="@+id/button_param_save"
+        android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>

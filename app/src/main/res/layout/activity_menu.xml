@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="@drawable/gradient_background"
+android:paddingTop="50dp"
+android:paddingBottom="50dp"
+    android:weightSum="1">
+
+    <!--<Button
+        android:background="@drawable/main_button"
+        android:id="@+id/button1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Styled Button"
+        style="@style/button_style" />-->
+    <Button
+        android:background="@drawable/grey_button"
+        style="@style/grey_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_gly"
+        android:id="@+id/button_menu_gly"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:background="@drawable/grey_button"
+        style="@style/grey_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_parameters"
+        android:id="@+id/button_menu_param"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:background="@drawable/grey_button"
+        style="@style/grey_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_contact"
+        android:id="@+id/button_menu_contact"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:background="@drawable/grey_button"
+        style="@style/grey_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_doctor"
+        android:id="@+id/button_menu_doctor"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:background="@drawable/grey_button"
+        style="@style/grey_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_connection"
+        android:id="@+id/button_menu_connection"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:background="@drawable/grey_button"
+        style="@style/grey_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_options"
+        android:id="@+id/button_menu_options"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

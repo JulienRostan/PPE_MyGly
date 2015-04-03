@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MyGly</string>
+
+    <string name="menu_title">Menu MyGly</string>
+    <string name="menu_gly">Suivi Glycémique</string>
+    <string name="menu_parameters">Mes Paramètres</string>
+    <string name="menu_contact">Mes Contacts</string>
+    <string name="menu_doctor">Mon Médecin</string>
+    <string name="menu_options">Mes Options</string>
+    <string name="menu_connection">Appairage Capteur</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="firstName">Prénom</string>
+    <string name="email">Adresse Email</string>
+    <string name="hypo">Seuil d'hypoglycémie</string>
+    <string name="hyper">Seuil d'hyperglycémie</string>
+
+    <string name="param_save">Enregistrer</string>
+
+    <string name="following_gly">Glycémie actuelle :</string>
+
+    <string name="doctor_intro"></string>
+
+</resources>
