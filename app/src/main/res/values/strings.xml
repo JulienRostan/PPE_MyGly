@@ -3,6 +3,14 @@
 
     <string name="app_name">MyGly</string>
 
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_my_gly">MyGly</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_mon_suivi_glycemique">"Mon Suivi "</string>
+
     <string name="menu_title">Menu MyGly</string>
     <string name="menu_gly">Suivi Glycémique</string>
     <string name="menu_parameters">Mes Paramètres</string>
@@ -11,13 +19,12 @@
     <string name="menu_options">Mes Options</string>
     <string name="menu_connection">Appairage Capteur</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
     <string name="firstName">Prénom</string>
     <string name="email">Adresse Email</string>
-    <string name="hypo">Seuil d'hypoglycémie</string>
-    <string name="hyper">Seuil d'hyperglycémie</string>
+    <string name="hypo">Seuil d\'hypoglycémie</string>
+    <string name="hyper">Seuil d\'hyperglycémie</string>
 
     <string name="param_save">Enregistrer</string>
 

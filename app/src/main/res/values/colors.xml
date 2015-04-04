@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <item name="textColor" type="color">#FFFFFF</item>
     <item name="textColorButton" type="color">#111111</item>
+    <color name="black_overlay">#66000000</color>
+
 </resources>
