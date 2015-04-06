@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import java.util.Timer;
 import java.util.TimerTask;
-
+/*
+Activity de "chargement" pour faire joli
+ */
 public class MyGly extends Activity {
 
 

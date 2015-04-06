@@ -8,8 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Objects;
+
 
 public class MainActivity extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 MainActivity.this.onPause();
                 startService(new Intent(MainActivity.this, MyBluetooth.class));
-                startActivity(new Intent(MainActivity.this, MonSuiviGlycemique.class));
+                //startActivity(new Intent(MainActivity.this, MonSuiviGlycemique.class));
 
             }
         });
@@ -33,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, Settings.class));
             }
         });
+
+
     }
 
 

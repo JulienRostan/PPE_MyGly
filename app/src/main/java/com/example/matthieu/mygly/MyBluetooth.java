@@ -1,5 +1,7 @@
 package com.example.matthieu.mygly;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,6 +11,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.media.SoundPool;
+import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -21,12 +26,14 @@ import java.io.InputStream;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class MyBluetooth extends Service {
 
-    private Handler bluetoothIn;
+    private Handler bluetoothIn=new Handler();
 
     private final int handlerState = 0;
     private BluetoothAdapter btAdapter;
@@ -35,6 +42,7 @@ public class MyBluetooth extends Service {
     private BluetoothDevice mmDevice;
     private InputStream btInputStream;
     private String SAVE_FILE = "MyglyVal.txt";
+
 
 
     // SPP UUID service - this should work for most devices
@@ -47,9 +55,22 @@ public class MyBluetooth extends Service {
         
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId){
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId)  {
+
+
+        // prepare intent which is triggered if the
+// notification is selected
+
+
+
+// build notification
+// the addAction re-use the same intent to keep the example short
+
+
+
+        //Toast.makeText(getApplicationContext(), "Bluetooth switched ON", Toast.LENGTH_LONG).show();
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null)
@@ -65,19 +86,20 @@ public class MyBluetooth extends Service {
                 mmDevice=null;
                 btAdapter.enable();
 
-                //Toast.makeText(getApplicationContext(), "Bluetooth switched ON", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Bluetooth switched ON", Toast.LENGTH_LONG).show();
 
             }
 
             try {
                 if(queryPairedDevices()) {
                     try {
-                       // Toast.makeText(getApplicationContext(), "Bluetooth found", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Bluetooth found", Toast.LENGTH_LONG).show();
                         openBluetooth();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }else{
+
                     Toast.makeText(getApplicationContext(), "Bluetooth device not found", Toast.LENGTH_LONG).show();
                 }
             } catch (InterruptedException e) {
@@ -88,7 +110,7 @@ public class MyBluetooth extends Service {
         }
 
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override
@@ -113,15 +135,15 @@ public class MyBluetooth extends Service {
             for (BluetoothDevice device : pairedDevices) {
                 // Add the name and address to an array adapter to show in a ListView
 
-                //System.out.println(device.getName());
+                System.out.println(device.getName());
                 if(device.getName().equals("HC-05")) {
 
                     mmDevice = device;
+                    return true;
 
-                    break;
                 }
             }
-            return true;
+
         }
 
         return false;
@@ -141,12 +163,143 @@ public class MyBluetooth extends Service {
             btSocket.connect();
             //mmOutputStream = btSocket.getOutputStream();
             btInputStream = btSocket.getInputStream();
-            listenForData();
+            Timer timer;
+            timer = new Timer();
+            timer.schedule(new NotificationHandler(),0,10000);
         }
 
     }
 
-    private void listenForData(){
+    class NotificationHandler extends TimerTask{
+        private Timer timer;
+
+        boolean stopWorker=false;
+        int readBufferPosition = 0;
+        byte delimiter = 10;
+        byte[] readBuffer = new byte[1024];
+
+
+
+
+        @Override
+        public void run() {
+
+                System.out.println("ça marche");
+                try
+                {
+                    int bytesAvailable = btInputStream.available();
+                    if(bytesAvailable > 0)
+                    {
+                        byte[] packetBytes = new byte[bytesAvailable];
+                        btInputStream.read(packetBytes);
+                        for(int i=0;i<bytesAvailable;i++)
+                        {
+                            byte b = packetBytes[i];
+                            if(b == delimiter)
+                            {
+                                byte[] encodedBytes = new byte[readBufferPosition];
+                                System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                final String data = new String(encodedBytes, "US-ASCII");
+                                readBufferPosition = 0;
+                                bluetoothIn.post(new Runnable()
+                                {
+                                    public void run()
+                                    {
+                                        notifhypo(10);
+                                        if(data!=null) {
+                                            System.out.println("gly: " + data);
+                                            if (Double.parseDouble(data) > 55 && Double.parseDouble(data) < 75) {
+                                                notifhypo(Double.parseDouble(data));
+                                            }
+                                            if (Double.parseDouble(data) < 40) {
+                                                notifhyper(Double.parseDouble(data));
+                                            }
+
+                                            if (Double.parseDouble(data) < 75) {
+                                                saveValue(Double.parseDouble(data));
+                                            }
+                                        }
+
+
+
+                                    }
+
+
+                                });
+                            }
+                            else
+                            {
+                                readBuffer[readBufferPosition++] = b;
+                            }
+                        }
+                    }
+
+                }
+                catch (IOException ex)
+                {
+                    stopWorker = true;
+                }
+
+            }
+
+        @TargetApi(VERSION_CODES.JELLY_BEAN)
+        public  void notifhyper(double data)
+        {
+            NotificationManager notificationManager;
+            Notification n;
+            Intent intentMSG;
+            PendingIntent pIntent;
+
+            intentMSG = new Intent(getBaseContext(),MonSuiviGlycemique.class);
+            pIntent = PendingIntent.getActivity(getBaseContext(), 0, intentMSG, 0);
+
+
+            notificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+            n  = new Notification.Builder(getBaseContext())
+                    .setContentTitle("Alerte Hyperglycémie ")
+                    .setContentText("Votre glycémie est à : "+data+" mg/L")
+                    .setSmallIcon(R.drawable.mygly_launcher)
+                    .setContentIntent(pIntent)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                    .setAutoCancel(true).build();
+
+            notificationManager.notify(0, n);
+
+
+
+        }
+
+        @TargetApi(VERSION_CODES.JELLY_BEAN)
+        public  void notifhypo(double data)
+        {
+            NotificationManager notificationManager;
+            Notification n;
+            Intent intentMSG;
+            PendingIntent pIntent;
+
+            intentMSG = new Intent(getBaseContext(),MonSuiviGlycemique.class);
+            pIntent = PendingIntent.getActivity(getBaseContext(), 0, intentMSG, 0);
+
+
+            notificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+            n  = new Notification.Builder(getBaseContext())
+                    .setContentTitle("Alerte Hypoglycémie ")
+                    .setContentText("Votre glycémie est à : "+data+" mg/L")
+                    .setSmallIcon(R.drawable.mygly_launcher)
+                    .setContentIntent(pIntent)
+                    .setAutoCancel(true).build();
+
+            notificationManager.notify(0, n);
+
+
+
+        }
+
+
+    }
+    /*private void listenForData(){
         bluetoothIn=new Handler();
 
         Thread workerThread = new Thread(new Runnable()
@@ -155,7 +308,7 @@ public class MyBluetooth extends Service {
             int readBufferPosition = 0;
             byte delimiter = 10;
             byte[] readBuffer = new byte[1024];
-
+            
             public void run()
             {
                 while(!Thread.currentThread().isInterrupted() && !stopWorker)
@@ -180,8 +333,20 @@ public class MyBluetooth extends Service {
                                     {
                                         public void run()
                                         {
-                                            System.out.println("gly: "+data);
-                                            saveValue(Double.parseDouble(data));
+                                            notifhypo(10);
+                                            if(data!=null) {
+                                                System.out.println("gly: " + data);
+                                                if (Double.parseDouble(data) > 55 && Double.parseDouble(data) < 75) {
+                                                    notifhypo(Double.parseDouble(data));
+                                                }
+                                                if (Double.parseDouble(data) < 40) {
+                                                    notifhyper(Double.parseDouble(data));
+                                                }
+
+                                                if (Double.parseDouble(data) < 75) {
+                                                    saveValue(Double.parseDouble(data));
+                                                }
+                                            }
 
                                             /*if(Result.getText().toString().equals("..")) {
                                                 Result.setText(data);
@@ -190,10 +355,12 @@ public class MyBluetooth extends Service {
                                             }
 
 	                                        	/* You also can use Result.setText(data); it won't display multilines
-	                                        	*/
+
 
                                         }
-                                    });
+
+
+                                  /*  });
                                 }
                                 else
                                 {
@@ -201,27 +368,89 @@ public class MyBluetooth extends Service {
                                 }
                             }
                         }
+                        //TimeUnit.SECONDS.sleep(200);
                     }
                     catch (IOException ex)
                     {
                         stopWorker = true;
                     }
+
                 }
+            }
+
+
+            @TargetApi(VERSION_CODES.JELLY_BEAN)*/
+            /*public  void notifhyper(double data)
+            {
+                NotificationManager notificationManager;
+                Notification n;
+                Intent intentMSG;
+                PendingIntent pIntent;
+
+                intentMSG = new Intent(getBaseContext(),MonSuiviGlycemique.class);
+                pIntent = PendingIntent.getActivity(getBaseContext(), 0, intentMSG, 0);
+
+
+                notificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                n  = new Notification.Builder(getBaseContext())
+                        .setContentTitle("Alerte Hyperglycémie ")
+                        .setContentText("Votre glycémie est à : "+data+" mg/L")
+                        .setSmallIcon(R.drawable.mygly_launcher)
+                        .setContentIntent(pIntent)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setAutoCancel(true).build();
+
+                notificationManager.notify(0, n);
+
+
+
+            }
+
+            @TargetApi(VERSION_CODES.JELLY_BEAN)
+            public  void notifhypo(double data)
+            {
+                NotificationManager notificationManager;
+                Notification n;
+                Intent intentMSG;
+                PendingIntent pIntent;
+
+                intentMSG = new Intent(getBaseContext(),MonSuiviGlycemique.class);
+                pIntent = PendingIntent.getActivity(getBaseContext(), 0, intentMSG, 0);
+
+
+                notificationManager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                n  = new Notification.Builder(getBaseContext())
+                        .setContentTitle("Alerte Hypoglycémie ")
+                        .setContentText("Votre glycémie est à : "+data+" mg/L")
+                        .setSmallIcon(R.drawable.mygly_launcher)
+                        .setContentIntent(pIntent)
+                        .setAutoCancel(true).build();
+
+                notificationManager.notify(0, n);
+
+
+
             }
         });
 
         workerThread.start();
 
-    }
+    }*/
 
     private boolean saveValue(double val) {
 
 
         FileOutputStream fos = null;
         try {
+
+
             fos = openFileOutput(SAVE_FILE, Context.MODE_APPEND);
+
             fos.write((new Date().toString()+"\n").getBytes());
             fos.write((val+"\n").getBytes());
+
             fos.close();
             return true;
         } catch (FileNotFoundException e) {
@@ -238,5 +467,7 @@ public class MyBluetooth extends Service {
 
 
     }
+
+
 
 }

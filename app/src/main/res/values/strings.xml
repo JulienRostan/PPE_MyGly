@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <string name="app_name">MyGly</string>
 
 
@@ -23,8 +24,10 @@
 
     <string name="firstName">Prénom</string>
     <string name="email">Adresse Email</string>
+
     <string name="hypo">Seuil d\'hypoglycémie</string>
     <string name="hyper">Seuil d\'hyperglycémie</string>
+
 
     <string name="param_save">Enregistrer</string>
 

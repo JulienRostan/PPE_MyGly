@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.matthieu.mygly.R;
+
 
 public class MenuActivity extends ActionBarActivity {
 

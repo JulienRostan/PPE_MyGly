@@ -60,7 +60,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:textAppearance="@style/TextViewStyle"
-        android:text="@string/hypo"/>
+        android:text="Seuil d'hypoglycémie" />   //@string/hypo
 
     <EditText
         android:id="@+id/editHypo"
@@ -81,7 +81,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:textAppearance="@style/TextViewStyle"
-        android:text="@string/hyper"/>
+        android:text="Seuil d'hyperglycémie"/> // @string/hyper
 
     <EditText
         android:id="@+id/editHyper"
